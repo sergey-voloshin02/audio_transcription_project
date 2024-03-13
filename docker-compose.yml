@@ -1,0 +1,52 @@
+version: '3.7'
+ 
+services:
+  nodejs-app:
+    container_name: nodejs-app
+    build:
+      context: ./
+      dockerfile: backend.dockerfile
+    #volumes:
+    #  - ./src:/usr
+    ports:
+      - "3000:3000"
+  front:
+    container_name: nginx
+    image: nginx:alpine
+    #build:
+    #  context: ./
+    #  dockerfile: front.dockerfile
+    volumes:
+      - ./public:/usr/share/nginx/html
+    ports:
+     - "80:80"
+  db:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: audio2txt
+
+  flyway:
+    image: flyway/flyway:latest-alpine
+    depends_on:
+      - db
+    # volumes:
+    #   - ./db/migration:/flyway/sql
+    environment:
+      - FLYWAY_URL=jdbc:mysql://db:3306/audio2txt?allowPublicKeyRetrieval=true&useSSL=false
+      - FLYWAY_USER=root
+      - FLYWAY_PASSWORD=root
+      - FLYWAY_VALIDATE_MIGRATION_NAMING=true
+    command: migrate
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_ARBITRARY: 1
+      MYSQL_ROOT_PASSWORD: root
+    depends_on:
+      - db
