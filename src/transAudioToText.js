@@ -6,19 +6,23 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
-async function transcribeAudio() {
+async function transcribeAudio(audioFilePath) {
   try {
     const transcription = await openai.audio.transcriptions.create({
-      file: fs.createReadStream(('uploads/audio-test.mp3')),
+      file: fs.createReadStream(audioFilePath),
       model: 'whisper-1',
       language: 'uk',
       response_format: 'json'
     });
 
-    console.log('Transcription:', transcription);
+    return transcription;
   } catch (error) {
     console.error('Error transcribing audio:', error);
+    throw error;
   }
 }
 
-transcribeAudio();
+
+module.exports = {
+  transcribeAudio
+};

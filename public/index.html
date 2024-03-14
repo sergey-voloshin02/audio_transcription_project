@@ -14,7 +14,8 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Roboto:wght@500;700&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500&family=Roboto:wght@500;700&display=swap"
+        rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -33,7 +34,8 @@
 
 <body>
     <!-- Spinner Start -->
-    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
         <div class="spinner-grow text-primary" role="status"></div>
     </div>
     <!-- Spinner End -->
@@ -42,7 +44,8 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 px-4 px-lg-5">
         <a href="index.html" class="navbar-brand d-flex align-items-center">
-            <h2 class="m-0 text-primary"><img class="img-fluid me-2" src="img/icon-1.png" alt="" style="width: 45px;">Audio2txt</h2>
+            <h2 class="m-0 text-primary"><img class="img-fluid me-2" src="img/icon-1.png" alt=""
+                    style="width: 45px;">Audio2txt</h2>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -52,14 +55,17 @@
                 <a href="#fist" class="nav-item nav-link active">Головна</a>
                 <a href="#sec" class="nav-item nav-link">Про нас</a>
                 <a href="#thrd" class="nav-item nav-link">Чому ми?</a>
-                
-                
+
+
                 <a href="#four" class="nav-item nav-link">Контакти</a>
             </div>
             <div class="h-100 d-lg-inline-flex align-items-center d-none">
-                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-square rounded-circle bg-light text-primary me-0" href=""><i class="fab fa-linkedin-in"></i></a>
+                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i
+                        class="fab fa-facebook-f"></i></a>
+                <a class="btn btn-square rounded-circle bg-light text-primary me-2" href=""><i
+                        class="fab fa-twitter"></i></a>
+                <a class="btn btn-square rounded-circle bg-light text-primary me-0" href=""><i
+                        class="fab fa-linkedin-in"></i></a>
             </div>
         </div>
     </nav>
@@ -72,30 +78,41 @@
             <div class="row g-5 align-items-center">
                 <div class="col-lg-6">
                     <h1 class="display-4 mb-3 animated slideInDown">Перетворення аудіо в текст миттєво</h1>
-                    <p class="animated slideInDown">Зручний інструмент для транскрибації: Аудіо в текст за кілька кроків!</p>
+                    <p class="animated slideInDown">Зручний інструмент для транскрибації: Аудіо в текст за кілька
+                        кроків!</p>
                     <!-- <a href=""  id="openModal" class="btn btn-primary py-3 px-4 animated slideInDown">Спробувати</a> -->
                     <button id="openModal">Спробувати</button>
                 </div>
                 <div class="col-lg-6 animated fadeIn">
-                    <img class="img-fluid animated pulse infinite" style="animation-duration: 3s;" src="img/heroimg.png" alt="">
+                    <img class="img-fluid animated pulse infinite" style="animation-duration: 3s;" src="img/heroimg.png"
+                        alt="">
                 </div>
             </div>
         </div>
     </div>
     <!-- Header End -->
 
-<!-- модальное окно -->
+    <!-- модальное окно -->
 
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="position">
-        <input type="file" id="audioFile" class="file-input" accept="audio/*">
-        <label for="audioFile" id="chooseFileBtn">Обрати файл</label>
-        <button id="convertBtn">Конвертувати</button>
+    <div id="modal" class="modal">
+        <div class="modal-content" id="modal-content">
+            <span class="close">&times;</span>
+            <div class="position">
+                <div id="dropZone" class="drop-zone">
+                    <p>Натисніть для вибору файла, або перетягніть сюди файл</p>
+                    <input type="file" id="audioFile" name="file" class="file-input" accept="audio/*">
+                    <label for="audioFile" id="chooseFileBtn"><i class="fas fa-upload"></i> <span id="chooseBtnText">Обрати файл</span></label>
+                    <div id="fileUploadIcon" class="file-upload-icon">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                </div>
+
+                <span id="resTrans"></span>
+                <button id="convertBtn">Конвертувати</button>
+            </div>
+        </div>
     </div>
-    </div>
-</div>
+
 
 
 
@@ -111,8 +128,10 @@
                         <h1 class="display-6">Про нас
                         </h1>
                         <p class="text-primary fs-5 mb-4">Наші функції та можливості</p>
-                        <p>Наш сервіс використовує передові технології розпізнавання мови, щоб забезпечити точність та швидкість перетворення голосу в текст. Ми розуміємо важливість вашого часу, тому пропонуємо зручний інтерфейс та швидкий процес конвертації.</p>
-                        
+                        <p>Наш сервіс використовує передові технології розпізнавання мови, щоб забезпечити точність та
+                            швидкість перетворення голосу в текст. Ми розуміємо важливість вашого часу, тому пропонуємо
+                            зручний інтерфейс та швидкий процес конвертації.</p>
+
                         <div class="d-flex align-items-center mb-2">
                             <i class="fa fa-check bg-light text-primary btn-sm-square rounded-circle me-3 fw-bold"></i>
                             <span>Точне розпізнавання мови</span>
@@ -125,7 +144,7 @@
                             <i class="fa fa-check bg-light text-primary btn-sm-square rounded-circle me-3 fw-bold"></i>
                             <span>Швидка обробка</span>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -173,7 +192,8 @@
                         <img class="img-fluid flex-shrink-0" src="img/icons1.png" alt="">
                         <div class="ps-4">
                             <h5 class="mb-3">Інтеграція з іншими сервісамик</h5>
-                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo</span>
+                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit
+                                clita duo justo</span>
                         </div>
                     </div>
                 </div>
@@ -182,36 +202,39 @@
                         <img class="img-fluid flex-shrink-0" src="img/icons2.png" alt="">
                         <div class="ps-4">
                             <h5 class="mb-3">Корекція помилок</h5>
-                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo</span>
+                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit
+                                clita duo justo</span>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="d-flex align-items-start">
                         <img class="img-fluid flex-shrink-0" src="img/icons4.png" alt="">
                         <div class="ps-4">
                             <h5 class="mb-3">Експорт у різні формати</h5>
-                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo</span>
+                            <span>Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit
+                                clita duo justo</span>
                         </div>
                     </div>
                 </div>
-            
-               
+
+
             </div>
         </div>
     </div>
     <!-- Features End -->
 
 
-    
+
 
     <!-- Footer Start -->
-    <div id = 'four' class="container-fluid bg-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div id='four' class="container-fluid bg-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-md-6">
-                    <h1 class="text-primary mb-4"><img class="img-fluid me-2" src="img/icon-1.png" alt="" style="width: 45px;">Audio2txt
+                    <h1 class="text-primary mb-4"><img class="img-fluid me-2" src="img/icon-1.png" alt=""
+                            style="width: 45px;">Audio2txt
                     </h1>
                     <!-- <span>Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.</span> -->
                 </div>
@@ -229,7 +252,7 @@
                     <p><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
                     <p><i class="fa fa-envelope me-3"></i>audio2txt@gmail.com</p>
                 </div>
-               
+
                 <div class="col-lg-3 col-md-6">
                     <h5 class="mb-4">Наші соц мережі</h5>
                     <div class="d-flex">
@@ -241,25 +264,68 @@
                 </div>
             </div>
         </div>
-        
-    <!-- Footer End -->
+
+        <!-- Footer End -->
 
 
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
+                class="bi bi-arrow-up"></i></a>
 
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/wow/wow.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/wow/wow.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/counterup/counterup.min.js"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+
+        <script>
+            // JavaScript
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('audioFile');
+            const fileUploadIcon = document.getElementById('fileUploadIcon');
+
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('drag-over');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('drag-over');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    fileInput.files = files;
+                    // You can perform additional actions with dropped files here if needed
+                }
+            });
+
+            fileInput.addEventListener('change', () => {
+                // Perform actions when file is chosen
+            });
+
+            // Showing the upload icon when file is being uploaded
+            fileInput.addEventListener('click', () => {
+                fileUploadIcon.style.display = 'block';
+            });
+
+            fileInput.addEventListener('change', () => {
+                fileUploadIcon.style.display = 'none';
+            });
+
+            // You may need to include Font Awesome CSS for icons to appear properly
+
+        </script>
 </body>
 
 </html>
