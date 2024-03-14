@@ -108,3 +108,25 @@
     
 })(jQuery);
 
+
+
+document.getElementById('openModal').addEventListener('click', function() {
+    document.getElementById('modal').style.display = 'block';
+});
+
+document.querySelector('.close').addEventListener('click', function() {
+    document.getElementById('modal').style.display = 'none';
+});
+
+document.getElementById('convertBtn').addEventListener('click', function() {
+    var fileInput = document.getElementById('audioFile');
+    if (fileInput.files.length > 0) {
+        var file = fileInput.files[0];
+        // Здесь можно добавить код для загрузки аудио файла и его конвертации
+        console.log('Файл загружен: ', file.name);
+        // После загрузки файла, можно вызвать функцию для конвертации
+        // convertAudioToText(file);
+    } else {
+        alert('Пожалуйста, выберите аудио файл для конвертации.');
+    }
+});

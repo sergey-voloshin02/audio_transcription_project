@@ -73,7 +73,8 @@
                 <div class="col-lg-6">
                     <h1 class="display-4 mb-3 animated slideInDown">Перетворення аудіо в текст миттєво</h1>
                     <p class="animated slideInDown">Зручний інструмент для транскрибації: Аудіо в текст за кілька кроків!</p>
-                    <a href="" class="btn btn-primary py-3 px-4 animated slideInDown">Спробувати</a>
+                    <!-- <a href=""  id="openModal" class="btn btn-primary py-3 px-4 animated slideInDown">Спробувати</a> -->
+                    <button id="openModal">Спробувати</button>
                 </div>
                 <div class="col-lg-6 animated fadeIn">
                     <img class="img-fluid animated pulse infinite" style="animation-duration: 3s;" src="img/heroimg.png" alt="">
@@ -82,6 +83,20 @@
         </div>
     </div>
     <!-- Header End -->
+
+<!-- модальное окно -->
+
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="position">
+        <input type="file" id="audioFile" class="file-input" accept="audio/*">
+        <label for="audioFile" id="chooseFileBtn">Обрати файл</label>
+        <button id="convertBtn">Конвертувати</button>
+    </div>
+    </div>
+</div>
+
 
 
     <!-- About Start -->
@@ -110,7 +125,7 @@
                             <i class="fa fa-check bg-light text-primary btn-sm-square rounded-circle me-3 fw-bold"></i>
                             <span>Швидка обробка</span>
                         </div>
-                        <a class="btn btn-primary py-3 px-4" href="">Спробувати</a>
+                        
                     </div>
                 </div>
             </div>
