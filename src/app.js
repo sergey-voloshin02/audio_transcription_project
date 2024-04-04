@@ -3,6 +3,9 @@ const app = express();
 const port = 3000;
 const multer = require('multer');
 const { transcribeAudio } = require('./transAudioToText');
+const { registerUser } = require('./register');
+const { loginUser } = require('./login');
+const { checkToken } = require('./check-token');
 const fs = require('fs');
 
 app.use(express.json());
@@ -30,6 +33,59 @@ const upload = multer({ storage: storage });
 app.get('/ping', (req, res) => {
     res.send('pongg');
 });
+
+app.post('/register', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Регистрация пользователя и получение токена
+        const token = await registerUser(email, password);
+
+        // Отправляем токен обратно клиенту
+        res.status(201).json({ token });
+    } catch (error) {
+        if (error.message === 'User already exists') {
+            res.status(409).json({ error: error.message });
+        } else {
+            console.log('Registration error:', error);
+            res.status(500).json({ error: 'An error occurred during the registration process.' });
+        }
+    }
+});
+
+app.post('/check-token', async (req, res) => {
+    try {
+        
+        const { userToken } = req.body;
+
+        const result = await checkToken(userToken);
+
+        res.status(201).json({ result });
+    } catch (error) {
+        console.log('Unexpected error:', error);
+        res.status(500).json({ error: 'Unexpected error' });
+    }
+});
+
+app.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        // Регистрация пользователя и получение токена
+        const token = await loginUser(email, password);
+
+        // Отправляем токен обратно клиенту
+        res.status(201).json({ token });
+    } catch (error) {
+        if (error.message === 'User not found' || 'Password is incorrect') {
+            res.status(200).json({ error: error.message });
+        } else {
+            console.log('Auth error:', error);
+            res.status(500).json({ error: 'An error occurred during the Auth process.' });
+        }
+    }
+});
+
 
 app.post('/trans-audio-to-text', upload.single('audioFile'), async (req, res) => {
     try {

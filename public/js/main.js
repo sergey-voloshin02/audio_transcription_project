@@ -109,11 +109,6 @@
 })(jQuery);
 
 
-
-document.getElementById('openModal').addEventListener('click', function () {
-    document.getElementById('modal').style.display = 'block';
-});
-
 document.querySelector('.close').addEventListener('click', function () {
     document.getElementById('modal').style.display = 'none';
 });
@@ -127,35 +122,142 @@ document.getElementById('audioFile').addEventListener('change', function () {
 });
 
 document.getElementById('convertBtn').addEventListener('click', function () {
-    var fileInput = document.getElementById('audioFile');
-    if (fileInput.files.length > 0) {
-        var file = fileInput.files[0];
+    const userToken = localStorage.getItem("userToken");
 
-        var formData = new FormData();
-        formData.append('audioFile', file);
+    if (userToken) {
 
-        fetch('http://localhost:3000/trans-audio-to-text', {
+        var fileInput = document.getElementById('audioFile');
+
+        if (fileInput.files.length > 0) {
+            var file = fileInput.files[0];
+
+            var formData = new FormData();
+            formData.append('audioFile', file);
+
+            fetch('http://localhost:3000/trans-audio-to-text', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Произошла ошибка при отправке файла на сервер.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('resTrans').innerText = data.transcription.text;
+                    document.getElementById('modal-content').style.overflow = "visible";
+                    document.getElementById('modal-content').style.height = "50%";
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+        } else {
+            alert('Пожалуйста, выберите аудио файл для конвертации.');
+        }
+    } else {
+        alert('Авторизуйтесь для користування нашим сервiсом!');
+    }
+});
+
+document.getElementById('openModal').addEventListener('click', function (event) {
+    const userToken = localStorage.getItem("userToken");
+
+    if (userToken) {
+
+        const data = { userToken: userToken };
+
+        fetch('http://localhost:3000/check-token', {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Произошла ошибка при отправке файла на сервер.');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                document.getElementById('resTrans').innerText = data.transcription.text;
-                document.getElementById('modal-content').style.overflow = "visible";
-                document.getElementById('modal-content').style.height = "50%";
+                if (data.result.found == true) {
+                    document.getElementById('modal').style.display = 'block';
+                } else {
+                    localStorage.removeItem('userToken');
+
+                    alert('Авторизуйтесь для користування нашим сервiсом!');
+                }
             })
-            .catch(error => {
-                console.error('Ошибка:', error);
+            .catch((error) => {
+                console.error('Error:', error);
             });
     } else {
-        alert('Пожалуйста, выберите аудио файл для конвертации.');
+        alert('Авторизуйтесь для користування нашим сервiсом!');
     }
-}); 
+});
 
+document.getElementById('singUpBtn').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    const passwordCheck = document.getElementById('register-password-check').value;
+
+    // Проверка совпадения паролей
+    if (password !== passwordCheck) {
+        alert('Your passwords did not match.');
+        return;
+    }
+
+    const data = { email, password };
+
+    fetch('http://localhost:3000/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem('userToken', data.token);
+                alert('Реєстрація пройшла успішно!');
+            } else {
+                alert('Сталась непедбачена помилка під час реєстрації!');
+                console.log('data', data);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+});
+
+document.getElementById('singInBtn').addEventListener('click', function (event) {
+    event.preventDefault();
+
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+
+    const data = { email, password };
+
+    fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.token) {
+                localStorage.setItem('userToken', data.token);
+                alert('Реєстрація пройшла успішно!');
+                window.location.href = '/index.html';
+            } else {
+                alert('Сталась непедбачена помилка під час авторизації!');
+                console.log('data', data);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+});
 
 
